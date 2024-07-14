@@ -17,11 +17,9 @@ if not cap.isOpened():
 # Get video properties
 fps = cap.get(cv2.CAP_PROP_FPS)
 
-# Dictionaries to hold timestamps for each class
-timestamps = {
-    'Pepsi_pts': [],
-    'CocaCola_pts': []
-}
+# Sets to hold unique timestamps for each class
+pepsi_timestamps = set()
+cola_timestamps = set()
 
 while cap.isOpened():
     ret, frame = cap.read()
@@ -45,14 +43,14 @@ while cap.isOpened():
 
             if model.names[cls] == 'Pepsi':  # Check if the detected class is Pepsi
                 # Calculate the timestamp
-                timestamp = frame_number / fps
-                timestamps['Pepsi_pts'].append(timestamp)
+                timestamp = round((frame_number / fps),1)
+                pepsi_timestamps.add(timestamp)
                 print(f'{model.names[cls]} detected at {timestamp:.2f} seconds')
 
             elif model.names[cls] == 'Cola':  # Check if the detected class is CocaCola
                 # Calculate the timestamp
-                timestamp = frame_number / fps
-                timestamps['CocaCola_pts'].append(timestamp)
+                timestamp = round((frame_number / fps),1)
+                cola_timestamps.add(timestamp)
                 print(f'{model.names[cls]} detected at {timestamp:.2f} seconds')
 
     # Display the frame
@@ -63,6 +61,12 @@ while cap.isOpened():
 # Release resources
 cap.release()
 cv2.destroyAllWindows()
+
+# Convert sets to lists
+timestamps = {
+    'Pepsi_pts': list(pepsi_timestamps),
+    'CocaCola_pts': list(cola_timestamps)
+}
 
 # Write the timestamps to a JSON file
 with open('timestamps.json', 'w') as f:
