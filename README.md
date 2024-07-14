@@ -1,3 +1,5 @@
+![image](https://github.com/user-attachments/assets/e6f005b9-9364-4a01-b1c6-0844522f3ea9)
+
 # Brand Logo Detection Pipeline
 
 This project provides a comprehensive pipeline for detecting Brand Logos like (Pepsi and Coca-Cola) in a video file  and recording their presence with timestamps. It consists of two main files:
